@@ -19,9 +19,8 @@ def load(parent):
 					parent.firmwareCB.addItem(os.path.basename(file), file)
 			parent.firmwarePTE.clear()
 			parent.firmwarePTE.appendPlainText(f'Firmware for {parent.boardCB.currentText()} Loaded')
-			if parent.mesaflash: # set mesaflash tools on if installed
+			if parent.read_hmid_gb.isEnabled(): # set mesaflash tools on if installed
 				parent.firmwareGB.setEnabled(True)
-				parent.read_hmid_gb.setEnabled(True)
 		else:
 			noFirmware(parent, board)
 	else:
@@ -38,8 +37,7 @@ def noFirmware(parent, board):
 	f'Extract the firmware to {os.path.expanduser("~")}/.local/lib/libmesact/{board}')
 	parent.firmwarePTE.setPlainText(msg)
 	parent.firmwareGB.setEnabled(False)
-	parent.read_hmid_gb.setEnabled(False)
-	parent.firmwareCB.addItem('N/A', False)
+	parent.firmwareCB.clear()
 
 	if parent.settings.value('NAGS/firmware', None, type=bool):
 		msg = (f'No Firmware was found for the {board}.\n'
